@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estilo 7 - Interactive Product Simulator</title>
+  <style>
+    :root {
+      --bg: #071318;
+      --panel: #0d1d24;
+      --panel-soft: #122730;
+      --text: #edf8f5;
+      --muted: #9bb5b0;
+      --mint: #5af2c2;
+      --teal: #55d8ff;
+      --line: rgba(255,255,255,.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top center, rgba(90,242,194,.12), transparent 26%),
+        linear-gradient(180deg, #071318 0%, #04090c 100%);
+    }
+    .page { width: min(1300px, calc(100% - 28px)); margin: 18px auto 28px; display: grid; gap: 18px; }
+    .topbar, .hero, .presets, .stats { background: rgba(13,29,36,.9); border: 1px solid var(--line); border-radius: 24px; }
+    .topbar { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .brand small { color: var(--mint); text-transform: uppercase; letter-spacing: .18em; font-size: 11px; }
+    .brand strong { display: block; margin-top: 8px; font: 700 1rem "Space Grotesk", "Segoe UI", sans-serif; }
+    nav { display: flex; gap: 10px; flex-wrap: wrap; }
+    nav a { text-decoration: none; color: var(--text); padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.03); }
+    nav a.active, nav a:hover { background: linear-gradient(90deg, var(--mint), var(--teal)); color: #041117; font-weight: 700; }
+    .hero { padding: 28px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    .eyebrow { color: var(--mint); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; margin-bottom: 16px; }
+    h1 { margin: 0; font: 700 clamp(2.8rem, 5vw, 4.9rem)/.94 "Space Grotesk", "Segoe UI", sans-serif; max-width: 760px; }
+    p { color: var(--muted); line-height: 1.9; }
+    .cta { margin-top: 22px; display: inline-flex; text-decoration: none; font-weight: 700; padding: 12px 16px; border-radius: 14px; background: linear-gradient(90deg, var(--mint), var(--teal)); color: #041117; }
+    .stats { padding: 20px; display: grid; gap: 12px; align-content: start; }
+    .kpis { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .kpi { padding: 16px; border-radius: 18px; background: var(--panel-soft); border: 1px solid var(--line); }
+    .kpi strong { display: block; margin-top: 6px; font-size: 1.35rem; }
+    .presets { padding: 20px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+    .preset { padding: 16px; border-radius: 18px; background: var(--panel-soft); border: 1px solid var(--line); }
+    .preset strong { display: block; margin-bottom: 8px; }
+    @media (max-width: 980px) { .hero, .presets, .kpis { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <small>Style 07</small>
+        <strong>Interactive Product Simulator</strong>
+      </div>
+      <nav>
+        <a class="active" href="#">Inicio</a>
+        <a href="#">Procesos y Threads</a>
+        <a href="#">Planificacion CPU</a>
+        <a href="#">Memoria Principal</a>
+        <a href="#">Paginacion</a>
+        <a href="#">Reemplazo de Paginas</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Inspirado en simuladores tipo producto interactivo</div>
+        <h1>Una landing que presenta el proyecto como plataforma de simulacion moderna</h1>
+        <p>Esta dirección se acerca al tono de herramientas interactivas actuales: métricas visibles, bloques compactos, presets y un mensaje más refinado. Funciona bien si quieres que el proyecto se sienta pulido y contemporáneo.</p>
+        <a class="cta" href="#">Start Simulating</a>
+      </div>
+      <aside class="stats">
+        <div class="kpis">
+          <div class="kpi">Algoritmos<strong>10+</strong></div>
+          <div class="kpi">Vistas<strong>06</strong></div>
+          <div class="kpi">Enfoque<strong>Visual</strong></div>
+          <div class="kpi">Comparacion<strong>Activa</strong></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="presets">
+      <article class="preset"><strong>Quick Start</strong><span>Entrada directa para una simulación base.</span></article>
+      <article class="preset"><strong>Heavy Load</strong><span>Escenario más intenso para scheduling.</span></article>
+      <article class="preset"><strong>Memory Focus</strong><span>Enfoque en paginación y marcos.</span></article>
+      <article class="preset"><strong>Custom</strong><span>Configuración abierta del sistema.</span></article>
+    </section>
+  </main>
+</body>
+</html>

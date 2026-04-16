@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estilo 8 - Utility Control Panel</title>
+  <style>
+    :root {
+      --bg: #0b1017;
+      --panel: #111924;
+      --panel-soft: #172230;
+      --text: #e8eef6;
+      --muted: #96a4b7;
+      --red: #ff6f7d;
+      --blue: #67b6ff;
+      --line: rgba(255,255,255,.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(103,182,255,.12), transparent 22%),
+        linear-gradient(180deg, #0b1017 0%, #05070b 100%);
+    }
+    .page { width: min(1280px, calc(100% - 30px)); margin: 20px auto 28px; display: grid; gap: 18px; }
+    .topbar, .hero, .controls, .summary { background: rgba(17,25,36,.92); border: 1px solid var(--line); border-radius: 22px; }
+    .topbar { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .brand small { color: var(--blue); text-transform: uppercase; letter-spacing: .18em; font-size: 11px; }
+    .brand strong { display: block; margin-top: 8px; font: 700 1rem "Space Grotesk", "Segoe UI", sans-serif; }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    nav a { text-decoration: none; color: var(--text); padding: 10px 12px; border-radius: 12px; background: var(--panel-soft); border: 1px solid var(--line); font-size: .92rem; }
+    nav a.active, nav a:hover { background: linear-gradient(90deg, var(--blue), var(--red)); color: #071018; font-weight: 700; }
+    .hero { padding: 26px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
+    .eyebrow { color: var(--blue); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; margin-bottom: 16px; }
+    h1 { margin: 0; font: 700 clamp(2.8rem, 5vw, 4.9rem)/.95 "Space Grotesk", "Segoe UI", sans-serif; max-width: 760px; }
+    p { color: var(--muted); line-height: 1.9; }
+    .controls { padding: 18px; display: grid; gap: 12px; align-content: start; }
+    .field { padding: 14px; border-radius: 16px; background: var(--panel-soft); border: 1px solid var(--line); }
+    .field small { display: block; color: var(--muted); text-transform: uppercase; letter-spacing: .14em; margin-bottom: 8px; font-size: 11px; }
+    .field strong { display: block; }
+    .summary { padding: 18px; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .chip { padding: 16px; border-radius: 16px; background: var(--panel-soft); border: 1px solid var(--line); }
+    .chip strong { display: block; margin-bottom: 6px; }
+    @media (max-width: 980px) { .hero, .summary { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <small>Style 08</small>
+        <strong>Utility Control Panel</strong>
+      </div>
+      <nav>
+        <a class="active" href="#">Inicio</a>
+        <a href="#">Procesos y Threads</a>
+        <a href="#">Planificacion CPU</a>
+        <a href="#">Memoria Principal</a>
+        <a href="#">Paginacion</a>
+        <a href="#">Reemplazo de Paginas</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Inspirado en simuladores utilitarios de memoria</div>
+        <h1>Una entrada más funcional con controles visibles desde el primer vistazo</h1>
+        <p>Esta variante se acerca al lenguaje de simuladores clásicos de reemplazo de páginas y memoria: bloques compactos, paneles de control, métricas visibles y menos dramatismo visual en el hero.</p>
+      </div>
+      <aside class="controls">
+        <div class="field"><small>Frames</small><strong>16</strong></div>
+        <div class="field"><small>Page Size</small><strong>4 KB</strong></div>
+        <div class="field"><small>Speed</small><strong>1x</strong></div>
+      </aside>
+    </section>
+
+    <section class="summary">
+      <article class="chip"><strong>Page Faults</strong><span>Indicador inmediato</span></article>
+      <article class="chip"><strong>CPU Ready Queue</strong><span>Acceso rápido a scheduling</span></article>
+      <article class="chip"><strong>Memory Frames</strong><span>Lectura utilitaria</span></article>
+    </section>
+  </main>
+</body>
+</html>

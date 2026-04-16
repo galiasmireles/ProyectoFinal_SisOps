@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estilo 6 - Guided Academic Lab</title>
+  <style>
+    :root {
+      --bg: #0a1320;
+      --panel: #0f1c2e;
+      --panel-soft: #14253b;
+      --text: #edf5ff;
+      --muted: #99acc7;
+      --cyan: #56dfff;
+      --blue: #70a6ff;
+      --line: rgba(255,255,255,.08);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(86,223,255,.14), transparent 24%),
+        linear-gradient(180deg, #0a1320 0%, #050a12 100%);
+    }
+    .page { width: min(1280px, calc(100% - 28px)); margin: 20px auto 28px; display: grid; gap: 20px; }
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+      padding: 14px 20px; background: rgba(15,28,46,.88); border: 1px solid var(--line); border-radius: 22px;
+    }
+    .brand small { color: var(--cyan); text-transform: uppercase; letter-spacing: .18em; font-size: 11px; }
+    .brand strong { display: block; margin-top: 8px; font: 700 1rem "Space Grotesk", "Segoe UI", sans-serif; }
+    nav { display: flex; flex-wrap: wrap; gap: 10px; }
+    nav a {
+      text-decoration: none; color: var(--text); padding: 10px 14px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.03);
+    }
+    nav a.active, nav a:hover { background: linear-gradient(90deg, var(--cyan), var(--blue)); color: #04101a; font-weight: 700; }
+    .hero {
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px;
+      background: rgba(15,28,46,.9); border: 1px solid var(--line); border-radius: 28px; padding: 30px;
+    }
+    .eyebrow { color: var(--cyan); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; margin-bottom: 16px; }
+    h1 { margin: 0; font: 700 clamp(3rem, 5.4vw, 5rem)/.93 "Space Grotesk", "Segoe UI", sans-serif; max-width: 760px; }
+    p { color: var(--muted); line-height: 1.9; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .btn {
+      text-decoration: none; padding: 12px 16px; border-radius: 14px; font-weight: 700;
+      background: linear-gradient(90deg, var(--cyan), var(--blue)); color: #04101a;
+    }
+    .ghost { background: var(--panel-soft); color: var(--text); border: 1px solid var(--line); }
+    .guide {
+      display: grid; gap: 14px; align-content: start;
+    }
+    .tip {
+      padding: 18px; border-radius: 18px; background: var(--panel-soft); border: 1px solid var(--line);
+    }
+    .tip strong { display: block; margin-bottom: 8px; }
+    @media (max-width: 980px) { .hero { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <small>Style 06</small>
+        <strong>Guided Academic Lab</strong>
+      </div>
+      <nav>
+        <a class="active" href="#">Inicio</a>
+        <a href="#">Procesos y Threads</a>
+        <a href="#">Planificacion CPU</a>
+        <a href="#">Memoria Principal</a>
+        <a href="#">Paginacion</a>
+        <a href="#">Reemplazo de Paginas</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Inspirado en visualizadores academicos guiados</div>
+        <h1>Una portada que presenta el simulador como herramienta de aprendizaje guiado</h1>
+        <p>Esta variante toma la sensación de simuladores educativos que combinan mensaje principal, botones de entrada y ayuda contextual. Se siente menos institucional y más orientada a que el usuario empiece rápido sin perder claridad.</p>
+        <div class="actions">
+          <a class="btn" href="#">Empezar simulacion</a>
+          <a class="btn ghost" href="#">Ver guia</a>
+        </div>
+      </div>
+      <aside class="guide">
+        <article class="tip">
+          <strong>Entrada clara</strong>
+          <span>El usuario entiende que puede comenzar o revisar ayuda sin navegar demasiado.</span>
+        </article>
+        <article class="tip">
+          <strong>Jerarquia academica</strong>
+          <span>El mensaje principal y la guía conviven como en un laboratorio educativo.</span>
+        </article>
+        <article class="tip">
+          <strong>Menu directo</strong>
+          <span>Cada simulador sigue estando en la parte superior como acceso primario.</span>
+        </article>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
