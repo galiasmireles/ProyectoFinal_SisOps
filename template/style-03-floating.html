@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estilo 3 - Floating Modules</title>
+  <style>
+    :root { --bg:#061019; --text:#eef7ff; --muted:#94aac5; --cyan:#55dcff; --purple:#b089ff; --lime:#4ff0b9; --panel:rgba(10,18,31,.86); --line:rgba(255,255,255,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:"Inter","Segoe UI",sans-serif; color:var(--text); background:radial-gradient(circle at center, rgba(85,220,255,.12), transparent 30%), linear-gradient(180deg, #061019 0%, #03060c 100%); }
+    .shell { width:min(1280px, calc(100% - 32px)); margin:20px auto 30px; }
+    .topbar { display:flex; justify-content:center; margin-bottom:24px; }
+    nav { display:flex; flex-wrap:wrap; gap:10px; padding:10px; background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:999px; backdrop-filter:blur(14px); }
+    nav a { text-decoration:none; color:var(--text); padding:10px 14px; border-radius:999px; }
+    nav a.active, nav a:hover { background:linear-gradient(90deg, var(--cyan), var(--lime)); color:#061019; font-weight:700; }
+    .hero { position:relative; min-height:78vh; display:grid; place-items:center; }
+    .center { width:min(860px, 100%); padding:34px; border-radius:34px; background:var(--panel); border:1px solid var(--line); backdrop-filter:blur(16px); text-align:center; box-shadow:0 24px 80px rgba(0,0,0,.45); }
+    .eyebrow { color:var(--cyan); text-transform:uppercase; letter-spacing:.18em; font-size:12px; margin-bottom:18px; }
+    h1 { margin:0; font:700 clamp(3rem, 6vw, 5.2rem)/.94 "Space Grotesk","Segoe UI",sans-serif; }
+    p { margin:18px auto 0; max-width:760px; color:var(--muted); line-height:1.9; }
+    .float { position:absolute; width:220px; padding:18px; border-radius:22px; background:rgba(255,255,255,.05); border:1px solid var(--line); backdrop-filter:blur(10px); }
+    .float strong { display:block; margin-bottom:8px; }
+    .f1 { top:6%; left:0; } .f2 { top:14%; right:2%; } .f3 { bottom:10%; left:5%; } .f4 { bottom:6%; right:0; }
+    @media (max-width: 980px) { .float { position:static; width:auto; margin:12px 0; } .hero { display:block; } .center { margin:14px 0; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar">
+      <nav>
+        <a class="active" href="#">Inicio</a>
+        <a href="#">Procesos y Threads</a>
+        <a href="#">Planificacion CPU</a>
+        <a href="#">Memoria Principal</a>
+        <a href="#">Paginacion</a>
+        <a href="#">Reemplazo de Paginas</a>
+      </nav>
+    </div>
+    <section class="hero">
+      <article class="float f1"><strong>Procesos</strong><span>Estados y jerarquías visibles.</span></article>
+      <article class="float f2"><strong>CPU</strong><span>Scheduling con acceso inmediato.</span></article>
+      <article class="float f3"><strong>Memoria</strong><span>Marcos, páginas y consumo.</span></article>
+      <article class="float f4"><strong>Replacement</strong><span>Faults y cambios de página.</span></article>
+      <section class="center">
+        <div class="eyebrow">Pantalla principal oficial</div>
+        <h1>Una portada central con módulos orbitando alrededor del acceso principal</h1>
+        <p>Esta propuesta baja la densidad del layout tradicional y convierte cada sección del sistema en una pieza flotante. El resultado es más llamativo, más escénico y menos rígido.</p>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

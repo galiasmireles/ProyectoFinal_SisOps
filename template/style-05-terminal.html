@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estilo 5 - Terminal Grid</title>
+  <style>
+    :root { --bg:#05080d; --panel:#0a1119; --text:#d7e6f8; --muted:#7d93ad; --green:#74f7a7; --amber:#ffd166; --line:rgba(116,247,167,.15); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:"IBM Plex Mono","Consolas",monospace; color:var(--text); background:linear-gradient(180deg, #05080d 0%, #020406 100%); }
+    .scan { position:fixed; inset:0; pointer-events:none; background:linear-gradient(rgba(255,255,255,.02) 50%, transparent 50%); background-size:100% 4px; opacity:.18; }
+    header { padding:16px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+    .brand { color:var(--green); text-transform:uppercase; letter-spacing:.12em; }
+    nav { display:flex; gap:8px; flex-wrap:wrap; }
+    nav a { text-decoration:none; color:var(--text); padding:10px 12px; border:1px solid transparent; }
+    nav a.active, nav a:hover { color:var(--green); border-color:var(--line); background:rgba(116,247,167,.05); }
+    main { width:min(1280px, calc(100% - 30px)); margin:24px auto 28px; }
+    .frame { border:1px solid var(--line); background:var(--panel); min-height:calc(100vh - 130px); padding:28px; position:relative; }
+    .frame::before, .frame::after { content:""; position:absolute; width:14px; height:14px; border-color:var(--green); }
+    .frame::before { top:10px; left:10px; border-top:1px solid; border-left:1px solid; }
+    .frame::after { right:10px; bottom:10px; border-right:1px solid; border-bottom:1px solid; }
+    .eyebrow { color:var(--amber); text-transform:uppercase; letter-spacing:.18em; font-size:12px; margin-bottom:18px; }
+    h1 { margin:0; max-width:920px; font-size:clamp(2.7rem, 5vw, 4.8rem); line-height:1; letter-spacing:-.04em; font-family:"Space Grotesk","Segoe UI",sans-serif; }
+    p { max-width:900px; color:var(--muted); line-height:2; margin-top:18px; }
+    .prompt { margin-top:28px; color:var(--green); }
+  </style>
+</head>
+<body>
+  <div class="scan"></div>
+  <header>
+    <div class="brand">Style 05 :: Terminal Grid</div>
+    <nav>
+      <a class="active" href="#">Inicio</a>
+      <a href="#">Procesos</a>
+      <a href="#">CPU</a>
+      <a href="#">Memoria</a>
+      <a href="#">Paginacion</a>
+      <a href="#">Reemplazo</a>
+    </nav>
+  </header>
+  <main>
+    <section class="frame">
+      <div class="eyebrow">Pantalla principal oficial</div>
+      <h1>Una landing austera con lenguaje de estación técnica</h1>
+      <p>Esta dirección reduce los adornos y trata el sistema como una herramienta de laboratorio. El menú es seco, el layout es contenido y el hero se apoya en una retícula terminal más que en bloques decorativos.</p>
+      <div class="prompt">&gt; seleccionar simulador desde la barra superior</div>
+    </section>
+  </main>
+</body>
+</html>

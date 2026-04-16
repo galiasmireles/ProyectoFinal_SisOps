@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exploracion de Estilos</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1726;
+      --line: rgba(130, 163, 255, 0.18);
+      --text: #ecf4ff;
+      --muted: #8ea3c4;
+      --cyan: #4de2ff;
+      --green: #49f2a5;
+      --radius: 22px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(77, 226, 255, 0.12), transparent 24%),
+        linear-gradient(180deg, #07111f 0%, #040a14 100%);
+    }
+    .page {
+      width: min(1200px, calc(100% - 28px));
+      margin: 28px auto;
+      display: grid;
+      gap: 18px;
+    }
+    .hero, .card {
+      background: rgba(13, 23, 38, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 28px; }
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+    h1, h2 { margin: 0; font-family: "Space Grotesk", "Segoe UI", sans-serif; }
+    h1 { font-size: clamp(2.4rem, 5vw, 4.6rem); line-height: .96; max-width: 820px; }
+    p { color: var(--muted); line-height: 1.85; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card { padding: 22px; display: grid; gap: 14px; }
+    .card strong { font-size: 1.1rem; }
+    .card a {
+      width: fit-content;
+      text-decoration: none;
+      color: #06101d;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+    }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Exploraciones visuales</div>
+      <h1>Cinco propuestas de landing con cambios reales de formato</h1>
+      <p>Estas variantes no cambian solo el color. Cada una explora otra forma de presentar el acceso principal del proyecto: menu lateral, menu flotante, composicion editorial, enfoque dashboard, y lenguaje tecnico minimalista.</p>
+    </section>
+    <section class="grid">
+      <article class="card">
+        <strong>Estilo 1 · Sidebar Command Center</strong>
+        <p>Navegacion lateral fija, hero amplio y columna informativa compacta.</p>
+        <a href="style-01-sidebar.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 2 · Editorial Split</strong>
+        <p>Composicion dividida con peso tipografico fuerte y menu superior tipo revista tecnica.</p>
+        <a href="style-02-editorial.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 3 · Floating Modules</strong>
+        <p>Menu flotante, panel central y elementos orbitando alrededor del mensaje principal.</p>
+        <a href="style-03-floating.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 4 · Mission Dashboard</strong>
+        <p>Lectura por bloques densos con una estética de centro de control.</p>
+        <a href="style-04-dashboard.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 5 · Terminal Grid</strong>
+        <p>Interfaz austera con menu en barra superior y hero inspirado en estaciones de trabajo tecnicas.</p>
+        <a href="style-05-terminal.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 6 · Guided Academic Lab</strong>
+        <p>Inspirado en visualizadores educativos con llamada principal, botones y tono guiado de laboratorio.</p>
+        <a href="style-06-guided-lab.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 7 · Interactive Product Simulator</strong>
+        <p>Inspirado en simuladores modernos tipo producto con métricas, presets y presentación más pulida.</p>
+        <a href="style-07-product-sim.html">Abrir estilo</a>
+      </article>
+      <article class="card">
+        <strong>Estilo 8 · Utility Control Panel</strong>
+        <p>Inspirado en simuladores de reemplazo de páginas con controles visibles, estadísticas y lectura funcional.</p>
+        <a href="style-08-utility-panel.html">Abrir estilo</a>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
