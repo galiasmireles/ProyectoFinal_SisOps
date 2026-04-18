@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador FCFS Interactivo</title>
+  <style>
+    :root{
+      --bg:#f8f5fb;
+      --bg2:#eef6ff;
+      --panel:#ffffff;
+      --panel2:#f9fcff;
+      --line:rgba(168,140,192,.22);
+      --text:#3e4161;
+      --muted:#7f85a3;
+      --accent:#9fd8d3;
+      --accent2:#b8c9ff;
+      --warn:#f7d9a7;
+      --danger:#f4b7c2;
+      --ok:#b9e7c4;
+      --purple:#d8c7f5;
+      --shadow:0 24px 60px rgba(179,168,208,.18);
+      --r:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(184,201,255,.42), transparent 30%),
+        radial-gradient(circle at 100% 0%, rgba(159,216,211,.34), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(216,199,245,.28), transparent 34%),
+        linear-gradient(180deg,var(--bg),#fdfbff 42%,var(--bg2));
+      min-height:100vh;
+    }
+    .wrap{width:min(1380px,calc(100% - 28px));margin:0 auto;padding:26px 0 40px}
+    .hero{margin-bottom:20px}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(247,251,255,.98));
+      border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+    }
+    .hero-main{padding:26px 26px 24px}
+    h1{margin:0;font-size:clamp(2rem,3vw,3.1rem);line-height:1.02;letter-spacing:-.03em}
+    .lead{color:#6e7394;line-height:1.7;max-width:78ch;margin:12px 0 0}
+    .rule-inline{
+      margin-top:14px;padding:14px 16px;border-radius:18px;
+      background:rgba(184,201,255,.16);border:1px solid rgba(184,201,255,.24);
+      color:#697092;line-height:1.65;
+    }
+
+    .top-table{padding:20px 20px 24px;margin-bottom:20px}
+    .section-title{margin:0 0 12px;font-size:1.08rem}
+    .muted{color:var(--muted)}
+    .preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+    .preset-btn,button,select,input{
+      border:1px solid rgba(168,140,192,.24);
+      background:#fffdfd;color:var(--text);border-radius:14px;
+      font:inherit;
+    }
+    .preset-btn,button{cursor:pointer;font-weight:700;transition:.18s transform ease,.18s border-color ease,.18s background ease}
+    .preset-btn:hover,button:hover{transform:translateY(-1px);border-color:rgba(184,201,255,.88)}
+    .preset-btn{padding:14px;text-align:center}
+    .control-row{display:flex;gap:10px;flex-wrap:wrap}
+    .control-row > *{flex:1}
+    button{padding:11px 14px}
+    button.primary{background:rgba(184,201,255,.36)}
+    button.secondary{background:rgba(185,231,196,.34)}
+    button.warn{background:rgba(247,217,167,.42)}
+    button.danger{background:rgba(244,183,194,.38)}
+    input,select{width:100%;padding:11px 12px;outline:none}
+    input:focus,select:focus{border-color:rgba(159,216,211,.8)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin:12px 0 14px}
+    .table-wrap{
+      overflow:auto;border-radius:18px;border:1px solid rgba(184,201,255,.24);
+      padding:14px;background:rgba(255,255,255,.55);
+    }
+    table{width:100%;border-collapse:collapse;min-width:840px;background:rgba(255,255,255,.92)}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(184,201,255,.18);text-align:center}
+    th{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);background:rgba(216,199,245,.16);position:sticky;top:0}
+    td input{min-width:70px;text-align:center;padding:9px 8px;border-radius:12px}
+    tr:last-child td{border-bottom:none}
+    .row-actions{display:flex;gap:8px;justify-content:center}
+    .row-actions button{padding:9px 10px;font-size:.88rem}
+
+    .sim{padding:20px}
+    .sim-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}
+    .sim-controls{display:flex;gap:10px;flex-wrap:wrap}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+    .stat{padding:15px;border-radius:18px;background:rgba(184,201,255,.16);border:1px solid rgba(184,201,255,.24)}
+    .stat .label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .stat .value{margin-top:8px;font-size:1.45rem;font-weight:800}
+    .sim-grid{display:grid;grid-template-columns:1fr;gap:16px}
+    .panel{padding:16px;border-radius:18px;background:rgba(255,255,255,.74);border:1px solid rgba(184,201,255,.24)}
+    .panel h3{margin:0 0 12px;font-size:1rem}
+    .queue{display:flex;flex-wrap:wrap;gap:8px;min-height:44px}
+    .chip{padding:10px 12px;border-radius:999px;background:rgba(184,201,255,.28);border:1px solid rgba(184,201,255,.4);font-weight:700}
+    .chip.active{background:rgba(185,231,196,.36);border-color:rgba(185,231,196,.68)}
+    .chip.wait{background:rgba(247,217,167,.36);border-color:rgba(247,217,167,.62)}
+    .chip.done{background:rgba(216,199,245,.46);border-color:rgba(216,199,245,.7)}
+    .cpu-card{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(184,201,255,.3),rgba(159,216,211,.18));border:1px solid rgba(184,201,255,.36)}
+    .cpu-state{font-size:1.3rem;font-weight:800}
+    .tiny{font-size:.85rem;color:var(--muted)}
+
+    /* Diagrama de Gantt fluido */
+    .fluid-gantt-wrapper { margin-top: 10px; position: relative; min-width: 760px; }
+    .fluid-gantt-track {
+      display: flex; height: 46px; background: rgba(245,247,255,.98);
+      border-radius: 12px; border: 1px solid rgba(184,201,255,.4);
+      overflow: visible; position: relative;
+    }
+    .fluid-gantt-segment {
+      position: relative; z-index: 2; height: 100%; display: flex;
+      align-items: center; justify-content: center; font-weight: 800; font-size: .85rem;
+      color: var(--text); border-right: 1px solid rgba(184,201,255,.3); cursor: pointer;
+      background: rgba(255,255,255,0.4);
+    }
+    .fluid-gantt-segment:last-child { border-right: none; }
+    .fluid-gantt-segment.idle { cursor: default; color: var(--muted); }
+    
+    /* TOOLTIP CSS PARA MAC */
+    .fluid-gantt-segment:not(.idle):hover::after {
+      content: attr(data-tooltip);
+      position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
+      background: #333; color: #fff; padding: 10px; border-radius: 8px;
+      font-size: 0.75rem; white-space: pre; z-index: 9999; line-height: 1.4;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3); pointer-events: none;
+    }
+
+    .segment-fill {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      transition: width .15s ease-out; z-index: 1;
+    }
+    .segment-fill.idle-fill {
+      background: repeating-linear-gradient(45deg, rgba(247,217,167,.25), rgba(247,217,167,.25) 10px, rgba(247,217,167,.4) 10px, rgba(247,217,167,.4) 20px);
+    }
+    .segment-fill.proc-fill {
+      background: rgba(185,231,196,.6); border-right: 2px solid rgba(185,231,196,.9);
+    }
+    .segment-text { position: relative; z-index: 2; pointer-events: none; }
+
+    .fluid-gantt-axis { position: relative; height: 24px; margin-top: 8px; }
+    .fluid-gantt-tick {
+      position: absolute; transform: translateX(-50%); font-size: .82rem;
+      color: var(--muted); font-weight: 600; top: 0;
+    }
+
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:6px;vertical-align:-2px}
+
+    .progress-list{display:grid;gap:14px}
+    .proc-line{display:grid;grid-template-columns:84px 1fr 110px;gap:12px;align-items:center}
+    .proc-track{
+      position:relative;height:18px;border-radius:999px;overflow:hidden;
+      background:rgba(184,201,255,.16);border:1px solid rgba(184,201,255,.22);
+    }
+    .proc-fill{
+      position:absolute;left:0;top:0;bottom:0;width:0%;
+      transition:width .15s ease-out, background .35s ease;
+    }
+    .proc-meta{font-size:.82rem;color:var(--muted);text-align:right}
+
+    .log{max-height:320px;overflow:auto;display:grid;gap:10px;padding-right:4px}
+    .log-item{padding:12px 13px;border-radius:14px;background:rgba(255,255,255,.94);border:1px solid rgba(184,201,255,.22);line-height:1.55}
+    .log-item strong{color:#6f5d9a}
+
+    .empty{padding:16px;border-radius:16px;border:1px dashed rgba(148,163,184,.22);color:var(--muted);text-align:center}
+    .footer-note{margin-top:16px;color:var(--muted);line-height:1.6}
+    .error-box{display:none;margin:10px 0 14px;padding:12px 14px;border-radius:14px;background:rgba(244,183,194,.28);border:1px solid rgba(244,183,194,.48);color:#8c4f5d}
+    .error-box.show{display:block}
+    .input-error{border-color:rgba(244,183,194,.95)!important;box-shadow:0 0 0 1px rgba(244,183,194,.4) inset}
+
+    @media (max-width:1150px){
+      .stats{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:700px){
+      .wrap{width:min(100% - 18px,100%)}
+      .preset-grid,.form-grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      .proc-line{grid-template-columns:1fr}
+      .proc-meta{text-align:left}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <article class="card hero-main">
+        <h1>Simulador FCFS interactivo</h1>
+        <p class="lead">
+          Edita procesos libremente, carga uno de los dos casos predefinidos y observa cómo avanza la planificación <strong>First Come, First Served</strong> segundo por segundo.
+        </p>
+        <div class="rule-inline">
+          En FCFS, el orden depende del tiempo de llegada. Si dos procesos llegan al mismo tiempo, se conserva el orden en que aparecen dentro de la tabla.
+        </div>
+      </article>
+    </section>
+
+    <section class="card top-table">
+      <h2 class="section-title">Tabla de procesos y entrada manual</h2>
+      <div class="preset-grid">
+        <button class="preset-btn" id="preset1">Preset 1 · P1, P2, P3</button>
+        <button class="preset-btn" id="preset2">Preset 2 · A, B, C, D</button>
+      </div>
+
+      <div class="form-grid" style="margin-top:0">
+        <input id="newName" placeholder="Proceso" maxlength="8">
+        <input id="newArrival" type="number" min="0" step="1" placeholder="Llegada">
+        <input id="newBurst" type="number" min="1" step="1" placeholder="Burst">
+        <button class="secondary" id="addBtn">Agregar</button>
+      </div>
+
+      <div class="control-row" style="margin-bottom:14px">
+        <button class="primary" id="recalcBtn">Recalcular</button>
+        <button class="warn" id="clearBtn">Vaciar tabla</button>
+      </div>
+
+      <div class="error-box" id="editorError"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Proceso</th>
+              <th>Llegada</th>
+              <th>Burst</th>
+              <th>Inicio</th>
+              <th>Final</th>
+              <th>TAT</th>
+              <th>WT</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="processTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card sim">
+      <div class="sim-top">
+        <div>
+          <h2 class="section-title">Ejecución visual</h2>
+          <p class="muted" id="simDesc">Carga o edita procesos para iniciar la simulación.</p>
+        </div>
+        <div class="sim-controls">
+          <button class="primary" id="playBtn">▶ Reproducir</button>
+          <button id="pauseBtn">⏸ Pausar</button>
+          <button id="stepBtn">⏭ Paso</button>
+          <button class="danger" id="resetBtn">↺ Reiniciar</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="label">Tiempo actual</div><div class="value" id="currentTime">0 s</div></div>
+        <div class="stat"><div class="label">Procesos</div><div class="value" id="processCount">0</div></div>
+        <div class="stat"><div class="label">Promedio TAT</div><div class="value" id="avgTat">0</div></div>
+        <div class="stat"><div class="label">Promedio WT</div><div class="value" id="avgWt">0</div></div>
+        <div class="stat"><div class="label">Utilización CPU</div><div class="value" id="cpuUtil">0%</div></div>
+      </div>
+
+      <div class="sim-grid">
+        <div class="panel">
+          <h3>Estado del sistema</h3>
+          <div class="cpu-card">
+            <div>
+              <div class="tiny">CPU</div>
+              <div class="cpu-state" id="cpuState">Idle (En espera)</div>
+              <div class="tiny" id="cpuDetail">No hay procesos listos todavía.</div>
+            </div>
+            <div class="chip" id="activeChip">Idle</div>
+          </div>
+          <div style="height:12px"></div>
+          <div class="tiny" style="margin-bottom:8px">Cola de listos</div>
+          <div class="queue" id="readyQueue"></div>
+          <div style="height:14px"></div>
+          
+          <h3>Diagrama tipo Gantt</h3>
+          <div class="timeline-wrap">
+            <div class="fluid-gantt-wrapper">
+              <div class="fluid-gantt-track" id="ganttTrack"></div>
+              <div class="fluid-gantt-axis" id="ganttAxis"></div>
+            </div>
+          </div>
+          <div class="legend">
+            <span><i style="background:rgba(185,231,196,.95)"></i>Progreso CPU</span>
+            <span><i style="background:rgba(247,217,167,.95)"></i>En cola / Idle</span>
+            <span><i style="background:rgba(216,199,245,.95)"></i>Terminado</span>
+            <span><i style="background:rgba(184,201,255,.75)"></i>Sin llegar</span>
+          </div>
+          <div style="height:14px"></div>
+          
+          <h3>Avance por proceso</h3>
+          <div class="progress-list" id="progressList"></div>
+        </div>
+
+        <div class="panel">
+          <h3>Registro paso por paso</h3>
+          <div class="log" id="logBox"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const presetData = {
+    preset1: [
+      { name: 'P1', arrival: 0, burst: 5 },
+      { name: 'P2', arrival: 2, burst: 4 },
+      { name: 'P3', arrival: 4, burst: 2 }
+    ],
+    preset2: [
+      { name: 'A', arrival: 0, burst: 3 },
+      { name: 'B', arrival: 0, burst: 2 },
+      { name: 'C', arrival: 1, burst: 4 },
+      { name: 'D', arrival: 3, burst: 2 }
+    ]
+  };
+
+  let processes = [];
+  let simulation = null;
+  let tickTimer = null;
+  let validation = { valid: true, message: '', duplicateIds: new Set() };
+
+  const refs = {
+    tableBody: document.getElementById('processTableBody'),
+    newName: document.getElementById('newName'),
+    newArrival: document.getElementById('newArrival'),
+    newBurst: document.getElementById('newBurst'),
+    simDesc: document.getElementById('simDesc'),
+    currentTime: document.getElementById('currentTime'),
+    processCount: document.getElementById('processCount'),
+    avgTat: document.getElementById('avgTat'),
+    avgWt: document.getElementById('avgWt'),
+    cpuUtil: document.getElementById('cpuUtil'),
+    cpuState: document.getElementById('cpuState'),
+    cpuDetail: document.getElementById('cpuDetail'),
+    activeChip: document.getElementById('activeChip'),
+    readyQueue: document.getElementById('readyQueue'),
+    ganttTrack: document.getElementById('ganttTrack'),
+    ganttAxis: document.getElementById('ganttAxis'),
+    progressList: document.getElementById('progressList'),
+    logBox: document.getElementById('logBox'),
+    editorError: document.getElementById('editorError')
+  };
+
+  function stopPlayback() {
+    clearInterval(tickTimer);
+    tickTimer = null;
+  }
+
+  function sanitizeProcesses(list) {
+    return list.map((p, index) => ({
+      id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
+      order: index,
+      name: String(p.name || `P${index + 1}`).trim() || `P${index + 1}`,
+      arrival: Math.max(0, Number(p.arrival) || 0),
+      burst: Math.max(1, Number(p.burst) || 1)
+    }));
+  }
+
+  function calculateFcfs(input) {
+    const list = input.map((p, index) => ({ ...p, order: index }));
+    const sorted = [...list].sort((a, b) => a.arrival - b.arrival || a.order - b.order);
+    let current = 0;
+    let busy = 0;
+
+    const computed = sorted.map(p => {
+      const start = Math.max(current, p.arrival);
+      const finish = start + p.burst;
+      const tat = finish - p.arrival;
+      const wt = tat - p.burst;
+      current = finish;
+      busy += p.burst;
+      return {
+        ...p, start, finish, tat, wt,
+        remaining: p.burst,
+        progress: 0,
+        status: 'future'
+      };
+    });
+
+    const totalTime = computed.length ? Math.max(...computed.map(p => p.finish)) : 0;
+    const avgTat = computed.length ? computed.reduce((a, p) => a + p.tat, 0) / computed.length : 0;
+    const avgWt = computed.length ? computed.reduce((a, p) => a + p.wt, 0) / computed.length : 0;
+    const cpuUtil = totalTime > 0 ? (busy / totalTime) * 100 : 0;
+
+    return { computed, totalTime, avgTat, avgWt, cpuUtil };
+  }
+
+  function validateProcesses(list) {
+    const map = new Map();
+    const duplicateIds = new Set();
+    for (const p of list) {
+      const key = (p.name || '').trim().toUpperCase();
+      if (!key) continue;
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+    for (const [key, count] of map.entries()) {
+      if (count > 1) duplicateIds.add(key);
+    }
+    if (duplicateIds.size) {
+      return {
+        valid: false,
+        duplicateIds,
+        message: `No se pueden repetir los PID. Corrige: ${[...duplicateIds].join(', ')}.`
+      };
+    }
+    return { valid: true, duplicateIds: new Set(), message: '' };
+  }
+
+  function syncEditorError() {
+    refs.editorError.textContent = validation.message || '';
+    refs.editorError.classList.toggle('show', !validation.valid && !!validation.message);
+  }
+
+  function getDynamicMetrics(proc, sim) {
+    if (!sim) return { tat: 0, wt: 0 };
+    const effectiveTime = sim.clock;
+    let tat = 0;
+    if (effectiveTime > proc.arrival) {
+      tat = Math.min(effectiveTime - proc.arrival, proc.tat);
+    }
+    let wt = Math.max(0, tat - proc.progress);
+    if (proc.remaining === 0) {
+      tat = proc.tat;
+      wt = proc.wt;
+    }
+    return { tat, wt };
+  }
+
+  function rebuildFromTable() {
+    const rows = [...refs.tableBody.querySelectorAll('tr[data-id]')];
+    processes = rows.map((row, index) => ({
+      id: row.dataset.id,
+      order: index,
+      name: row.querySelector('[data-field="name"]').value || `P${index + 1}`,
+      arrival: Math.max(0, Number(row.querySelector('[data-field="arrival"]').value) || 0),
+      burst: Math.max(1, Number(row.querySelector('[data-field="burst"]').value) || 1)
+    }));
+    runCalculation(false); 
+  }
+
+  function renderTable() {
+    refs.tableBody.innerHTML = '';
+    if (!processes.length) {
+      refs.tableBody.innerHTML = `<tr><td colspan="9"><div class="empty">No hay procesos en la tabla.</div></td></tr>`;
+      validation = { valid: true, message: '', duplicateIds: new Set() };
+      syncEditorError();
+      runCalculation(false);
+      return;
+    }
+
+    const calc = calculateFcfs(processes);
+    const simLookup = simulation ? new Map(simulation.computed.map(p => [p.id, p])) : null;
+
+    processes.forEach((p, index) => {
+      const found = calc.computed.find(c => c.id === p.id);
+      const live = simLookup?.get(p.id);
+      
+      // LÓGICA DINÁMICA: Solo mostrar Inicio/Final si la simulación ya llegó a ellos
+      const hasStarted = simulation && simulation.clock >= found.start;
+      const hasFinished = simulation && simulation.clock >= found.finish;
+      const metrics = getDynamicMetrics(live || { ...found, progress: 0, remaining: found.burst }, simulation);
+
+      const tr = document.createElement('tr');
+      tr.dataset.id = p.id;
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td><input data-field="name" value="${escapeHtml(p.name)}"></td>
+        <td><input data-field="arrival" type="number" min="0" step="1" value="${p.arrival}"></td>
+        <td><input data-field="burst" type="number" min="1" step="1" value="${p.burst}"></td>
+        <td>${hasStarted ? found.start : '-'}</td>
+        <td>${hasFinished ? found.finish : '-'}</td>
+        <td>${found ? metrics.tat : '-'}</td>
+        <td>${found ? metrics.wt : '-'}</td>
+        <td>
+          <div class="row-actions">
+            <button class="warn" data-action="up">↑</button>
+            <button class="warn" data-action="down">↓</button>
+            <button class="danger" data-action="delete">✕</button>
+          </div>
+        </td>
+      `;
+      refs.tableBody.appendChild(tr);
+    });
+
+    refs.tableBody.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', rebuildFromTable);
+    });
+    refs.tableBody.querySelectorAll('button[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => handleRowAction(btn.closest('tr').dataset.id, btn.dataset.action));
+    });
+
+    validation = validateProcesses(processes);
+    syncEditorError();
+  }
+
+  function updateTableDynamicData() {
+    const calc = calculateFcfs(processes);
+    const simLookup = simulation ? new Map(simulation.computed.map(p => [p.id, p])) : null;
+    
+    refs.tableBody.querySelectorAll('tr[data-id]').forEach((tr) => {
+      const id = tr.dataset.id;
+      const found = calc.computed.find(c => c.id === id);
+      const live = simLookup?.get(id);
+      
+      const hasStarted = simulation && simulation.clock >= found.start;
+      const hasFinished = simulation && simulation.clock >= found.finish;
+      const metrics = getDynamicMetrics(live || { ...found, progress: 0, remaining: found.burst }, simulation);
+      
+      if (tr.children.length >= 8) {
+        tr.children[4].textContent = hasStarted ? found.start : '-';
+        tr.children[5].textContent = hasFinished ? found.finish : '-';
+        tr.children[6].textContent = found ? metrics.tat : '-';
+        tr.children[7].textContent = found ? metrics.wt : '-';
+      }
+    });
+  }
+
+  function handleRowAction(id, action) {
+    const idx = processes.findIndex(p => p.id === id);
+    if (idx === -1) return;
+    if (action === 'delete') {
+      processes.splice(idx, 1);
+    }
+    if (action === 'up' && idx > 0) {
+      [processes[idx - 1], processes[idx]] = [processes[idx], processes[idx - 1]];
+    }
+    if (action === 'down' && idx < processes.length - 1) {
+      [processes[idx + 1], processes[idx]] = [processes[idx], processes[idx + 1]];
+    }
+    runCalculation(true);
+  }
+
+  function runCalculation(renderTab = true) {
+    stopPlayback();
+    const { computed, totalTime, avgTat, avgWt, cpuUtil } = calculateFcfs(processes);
+    simulation = {
+      computed, totalTime, finalAvgTat: avgTat, finalAvgWt: avgWt,
+      finalCpuUtil: cpuUtil, clock: 0, activeId: null, logs: [], finished: false,
+      busyTicks: 0, history: []
+    };
+    if(refs.ganttTrack) delete refs.ganttTrack.dataset.built;
+    renderSimulation(renderTab);
+  }
+
+  function renderSimulation(renderTab = true) {
+    const sim = simulation;
+    const totals = sim.computed.reduce((acc, p) => {
+      const metrics = getDynamicMetrics(p, sim);
+      acc.tat += metrics.tat; acc.wt += metrics.wt; return acc;
+    }, { tat: 0, wt: 0 });
+    const dynamic = {
+      tat: totals.tat / (sim.computed.length || 1),
+      wt: totals.wt / (sim.computed.length || 1),
+      util: sim.clock > 0 ? (sim.busyTicks / sim.clock) * 100 : 0
+    };
+
+    refs.currentTime.textContent = `${sim.clock} s`;
+    refs.processCount.textContent = String(sim.computed.length);
+    refs.avgTat.textContent = dynamic.tat.toFixed(2);
+    refs.avgWt.textContent = dynamic.wt.toFixed(2);
+    refs.cpuUtil.textContent = `${dynamic.util.toFixed(1)}%`;
+
+    const active = sim.computed.find(p => p.id === sim.activeId);
+    if (active) {
+      refs.cpuState.textContent = `Ejecutando ${active.name}`;
+      refs.cpuDetail.textContent = `Le restan ${active.remaining} s.`;
+      refs.activeChip.textContent = active.name;
+      refs.activeChip.className = 'chip active';
+    } else {
+      refs.cpuState.textContent = sim.finished ? 'Terminado' : 'Idle (En espera)';
+      refs.cpuDetail.textContent = sim.finished ? 'Planificación concluida.' : 'Esperando proceso.';
+      refs.activeChip.textContent = sim.finished ? 'Done' : 'Idle';
+      refs.activeChip.className = sim.finished ? 'chip done' : 'chip';
+    }
+
+    const ready = sim.computed.filter(p => p.arrival <= sim.clock && p.remaining > 0 && p.id !== sim.activeId);
+    refs.readyQueue.innerHTML = ready.length ? ready.map(p => `<span class="chip wait">${escapeHtml(p.name)}</span>`).join('') : '<span class="muted">Vacía</span>';
+
+    renderTimeline();
+    renderProgress();
+    renderLog();
+    if (renderTab) renderTable(); else updateTableDynamicData();
+  }
+
+  function renderTimeline() {
+    const track = refs.ganttTrack;
+    const axis = refs.ganttAxis;
+    if (!simulation || !simulation.computed.length) { track.innerHTML = ''; axis.innerHTML = ''; return; }
+
+    const total = Math.max(simulation.totalTime, 1);
+    if (!track.dataset.built || track.dataset.totalTime !== String(simulation.totalTime)) {
+      let segmentsHtml = '';
+      let axisHtml = `<div class="fluid-gantt-tick" style="left: 0%">0</div>`;
+      let t = 0;
+      const sorted = [...simulation.computed].sort((a,b) => a.start - b.start);
+      
+      sorted.forEach(p => {
+        if (p.start > t) {
+          const w = ((p.start - t) / total) * 100;
+          segmentsHtml += `<div class="fluid-gantt-segment idle" style="width: ${w}%"><div class="segment-fill idle-fill" data-start="${t}" data-end="${p.start}"></div><span class="segment-text">Idle</span></div>`;
+          axisHtml += `<div class="fluid-gantt-tick" style="left: ${((t + (p.start-t))/total)*100}%">${p.start}</div>`;
+          t = p.start;
+        }
+        const w = (p.burst / total) * 100;
+        const tooltip = `Proceso: ${p.name}\nLlegada: ${p.arrival}\nBurst: ${p.burst}\nTAT: ${p.tat}\nWT: ${p.wt}`;
+        segmentsHtml += `<div class="fluid-gantt-segment" style="width: ${w}%" data-tooltip="${tooltip}"><div class="segment-fill proc-fill" data-start="${t}" data-end="${p.finish}"></div><span class="segment-text">${escapeHtml(p.name)}</span></div>`;
+        axisHtml += `<div class="fluid-gantt-tick" style="left: ${((t + p.burst)/total)*100}%">${p.finish}</div>`;
+        t = p.finish;
+      });
+      track.innerHTML = segmentsHtml; axis.innerHTML = axisHtml;
+      track.dataset.built = "true"; track.dataset.totalTime = simulation.totalTime;
+    }
+
+    track.querySelectorAll('.segment-fill').forEach(fill => {
+      const s = Number(fill.dataset.start); const e = Number(fill.dataset.end);
+      let pct = 0;
+      if (simulation.clock >= e) pct = 100; else if (simulation.clock > s) pct = ((simulation.clock - s) / (e - s)) * 100;
+      fill.style.width = `${pct}%`;
+    });
+  }
+
+  function renderProgress() {
+    refs.progressList.innerHTML = '';
+    simulation.computed.forEach(p => {
+      const pct = (p.progress / p.burst) * 100;
+      let color = 'rgba(184,201,255,.75)';
+      if (p.remaining === 0) color = 'rgba(216,199,245,.95)';
+      else if (p.id === simulation.activeId) color = 'rgba(185,231,196,.95)';
+      else if (p.arrival <= simulation.clock) color = 'rgba(247,217,167,.95)';
+
+      const row = document.createElement('div');
+      row.className = 'proc-line';
+      row.innerHTML = `<div><strong>${escapeHtml(p.name)}</strong></div><div><div class="proc-track"><div class="proc-fill" style="width:${pct}%; background:${color}"></div></div></div><div class="proc-meta">${p.progress}/${p.burst} s</div>`;
+      refs.progressList.appendChild(row);
+    });
+  }
+
+  function renderLog() {
+    refs.logBox.innerHTML = simulation.logs.length ? simulation.logs.slice().reverse().map(item => `<div class="log-item">${item}</div>`).join('') : '<div class="empty">Esperando simulación...</div>';
+  }
+
+  function tick() {
+    if (!simulation || simulation.finished) { stopPlayback(); return; }
+    if (!simulation.activeId) {
+      const next = simulation.computed.find(p => p.arrival <= simulation.clock && p.remaining > 0);
+      if (next) { simulation.activeId = next.id; simulation.logs.push(`<strong>t=${simulation.clock}s:</strong> ${next.name} toma el CPU.`); }
+    }
+    const active = simulation.computed.find(p => p.id === simulation.activeId && p.remaining > 0);
+    if (active) {
+      active.remaining--; active.progress++; simulation.busyTicks++;
+      if (active.remaining === 0) { simulation.logs.push(`<strong>t=${simulation.clock + 1}s:</strong> ${active.name} termina.`); }
+    } else {
+      simulation.logs.push(`<strong>t=${simulation.clock}s:</strong> CPU Idle.`);
+    }
+    simulation.clock++;
+    if (active && active.remaining === 0) simulation.activeId = null;
+    simulation.finished = simulation.computed.every(p => p.remaining === 0);
+    renderSimulation(false);
+  }
+
+  function escapeHtml(str) { return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;'); }
+
+  document.getElementById('addBtn').onclick = () => {
+    processes.push({ id: crypto.randomUUID(), name: refs.newName.value || `P${processes.length+1}`, arrival: Number(refs.newArrival.value)||0, burst: Number(refs.newBurst.value)||1 });
+    refs.newName.value = ''; refs.newArrival.value = ''; refs.newBurst.value = ''; runCalculation(true);
+  };
+  document.getElementById('playBtn').onclick = () => { if(!tickTimer) tickTimer = setInterval(tick, 900); };
+  document.getElementById('pauseBtn').onclick = stopPlayback;
+  document.getElementById('stepBtn').onclick = () => { stopPlayback(); tick(); };
+  document.getElementById('resetBtn').onclick = () => runCalculation(true);
+  document.getElementById('preset1').onclick = () => { processes = sanitizeProcesses(presetData.preset1); runCalculation(true); };
+  document.getElementById('preset2').onclick = () => { processes = sanitizeProcesses(presetData.preset2); runCalculation(true); };
+  document.getElementById('recalcBtn').onclick = () => runCalculation(true);
+  document.getElementById('clearBtn').onclick = () => { processes = []; runCalculation(true); };
+
+  runCalculation(true);
+})();
+</script>
+</body>
+</html>

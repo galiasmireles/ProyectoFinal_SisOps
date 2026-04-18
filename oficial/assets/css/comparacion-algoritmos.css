@@ -1,0 +1,11 @@
+﻿:root { --bg:#07111f; --bg-deep:#040a14; --panel:rgba(13,23,38,.92); --line:rgba(130,163,255,.16); --text:#ecf4ff; --muted:#90a4c4; --cyan:#4de2ff; --green:#49f2a5; --radius:24px; --shadow:0 20px 60px rgba(0,0,0,.42); --display:"Space Grotesk","Segoe UI",sans-serif; --sans:"Inter","Segoe UI",sans-serif; }
+    * { box-sizing:border-box; } body { margin:0; min-height:100vh; font-family:var(--sans); color:var(--text); background:radial-gradient(circle at top left, rgba(77,226,255,.14), transparent 24%), linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%); }
+    .topbar { position:sticky; top:0; z-index:20; backdrop-filter:blur(18px); background:rgba(5,12,22,.78); border-bottom:1px solid rgba(130,163,255,.12); }
+    .topbar-inner,.page { width:min(1360px, calc(100% - 28px)); margin:0 auto; }
+    .topbar-inner { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; padding:14px 0; }
+    .brand small { color:var(--cyan); text-transform:uppercase; letter-spacing:.16em; font-size:11px; } .brand strong { display:block; font-family:var(--display); font-size:1rem; }
+    .nav-links { display:flex; align-items:center; gap:10px; flex-wrap:wrap; } .nav-links a { text-decoration:none; color:var(--text); padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); font-size:.92rem; }
+    .nav-links a.active,.nav-links a:hover { color:#06101d; background:linear-gradient(90deg, var(--cyan), var(--green)); border-color:transparent; }
+    .page { padding:22px 0 34px; display:grid; gap:18px; } .hero,.table-panel { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px; }
+    .eyebrow { color:var(--cyan); text-transform:uppercase; letter-spacing:.18em; font-size:12px; margin-bottom:16px; } h1,h2 { margin:0; font-family:var(--display); } h1 { font-size:clamp(2.2rem,4vw,4rem); line-height:.98; } p { color:var(--muted); line-height:1.9; max-width:900px; }
+    table { width:100%; border-collapse:collapse; min-width:760px; } th,td { padding:14px; border-bottom:1px solid var(--line); text-align:left; } th { color:var(--cyan); text-transform:uppercase; letter-spacing:.12em; font-size:.78rem; } .scroll { overflow:auto; margin-top:18px; }

@@ -1,0 +1,177 @@
+    :root {
+      --bg: #f6f9ff;
+      --bg-deep: #e9f0ff;
+      --panel: rgba(255, 255, 255, 0.94);
+      --soft: #eef3ff;
+      --line: rgba(76, 108, 196, 0.16);
+      --text: #16346a;
+      --muted: #5f76a7;
+      --blue: #356dff;
+      --purple: #8c6dff;
+      --green: #2bb98d;
+      --warn: #d88b26;
+      --danger: #de5b73;
+      --shadow: 0 24px 60px rgba(63, 94, 168, 0.16);
+      --radius: 24px;
+      --display: "Space Grotesk", "Segoe UI", sans-serif;
+      --sans: "Inter", "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", "Consolas", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(53, 109, 255, 0.12), transparent 24%),
+        radial-gradient(circle at top right, rgba(140, 109, 255, 0.1), transparent 28%),
+        linear-gradient(180deg, var(--bg), var(--bg-deep));
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        linear-gradient(rgba(53, 109, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(53, 109, 255, 0.06) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, #000, transparent);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, 0.74);
+      border-bottom: 1px solid rgba(76, 108, 196, 0.14);
+    }
+
+    .topbar-inner,
+    .page {
+      width: min(1680px, calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding: 14px 0;
+    }
+
+    .brand small,
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 11px;
+    }
+
+    .brand strong {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(76, 108, 196, 0.12);
+      background: rgba(255, 255, 255, 0.72);
+      font-size: 0.92rem;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: #fff;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      border-color: transparent;
+    }
+
+    .page {
+      padding: 18px 0 32px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: var(--display);
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    code {
+      font-family: var(--mono);
+      color: var(--blue);
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-family: var(--sans);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .primary {
+      color: #fff;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+    }
+
+    .secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(76, 108, 196, 0.12);
+    }
+
+    .danger {
+      color: #fff;
+      background: linear-gradient(90deg, #d7678f, var(--danger));
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      font-family: var(--sans);
+    }
